@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include "android_log.h"
+#include "iostream"
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
@@ -31,10 +32,12 @@ Java_com_android_utils_ImageUtils_readBufferByOpenCV(JNIEnv *env, jclass clazz, 
                                                      jobject buffer,
                                                      jint mode) {
     void* data = env->GetDirectBufferAddress(buffer);
+    jlong size = env->GetDirectBufferCapacity(buffer);
     string data_path = env->GetStringUTFChars(path,JNI_FALSE);
     Mat mat = imread(data_path,mode);
 
-    memcpy(data,mat.data,mat.channels()* mat.cols* mat.rows);
+//    LOGE("444444444444:%ld,%d,%d,%d",size, sizeof(mat.data),mat.cols,mat.rows);
+    memcpy(data,mat.data,size);
 }
 extern "C"
 JNIEXPORT void JNICALL
@@ -43,7 +46,7 @@ Java_com_android_utils_ImageUtils_readRgbBufferByOpenCV(JNIEnv *env, jclass claz
     void* data = env->GetDirectBufferAddress(buffer);
     string data_path = env->GetStringUTFChars(path,JNI_FALSE);
     Mat bgrMat = imread(data_path);
-    LOGE("444444444444:%d,%d,%d",bgrMat.channels(),bgrMat.cols,bgrMat.rows);
+//    LOGE("444444444444:%d,%d,%d",bgrMat.channels(),bgrMat.cols,bgrMat.rows);
     Mat rgbMat = Mat(bgrMat.rows,bgrMat.cols,CV_8UC3,data);
     cvtColor(bgrMat,rgbMat,CV_BGR2RGB);
     memcpy(data,rgbMat.data,rgbMat.channels()* rgbMat.cols* rgbMat.rows);
@@ -55,7 +58,7 @@ Java_com_android_utils_ImageUtils_readBgrBufferByOpenCV(JNIEnv *env, jclass claz
     void* data = env->GetDirectBufferAddress(buffer);
     string data_path = env->GetStringUTFChars(path,JNI_FALSE);
     Mat mat = imread(data_path);
-    LOGE("444444444444:%d,%d",mat.channels(),mat.cols,mat.rows);
+//    LOGE("444444444444:%d,%d",mat.channels(),mat.cols,mat.rows);
     memcpy(data,mat.data,mat.channels()* mat.cols* mat.rows);
 }
 extern "C"
