@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.android.imageutils"
+        minSdk androidId.minSdkVersion
+        targetSdk androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        testInstrumentationRunner androidId.testInstrumentationRunner
+
+        ndkAbiFilters
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        java_version
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    packagingOptions {
+        pickFirst "lib/armeabi-v7a/libopencv_java3.so"
+        pickFirst "lib/arm64-v8a/libopencv_java3.so"
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+//    implementation(name: 'androidutils-release',ext: 'aar')
+    implementation(project(':androidutils'))
+    implementation( name:'ImiFaceSdk_faceidcom_04.00.00.220318_1.2.6-release',ext:'aar')
+    common_dependencies
+    test_dependencies
+
+    implementation 'com.github.13046434521:GLSurface:v1.0.8'
+}

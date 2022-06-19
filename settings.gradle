@@ -1,0 +1,10 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+//    PREFER_PROJECT,
+//    PREFER_SETTINGS,
+//    FAIL_ON_PROJECT_REPOS;
+
+}
+rootProject.name = "AndroidUtils"
+include ':app'
+include ':androidutils'
